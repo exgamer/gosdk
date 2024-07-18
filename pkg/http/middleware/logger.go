@@ -4,6 +4,7 @@ import (
 	"github.com/exgamer/gosdk/pkg/exception"
 	gin2 "github.com/exgamer/gosdk/pkg/gin"
 	"github.com/exgamer/gosdk/pkg/logger"
+	"github.com/getsentry/sentry-go"
 	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/mapstructure"
 )
