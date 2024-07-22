@@ -65,6 +65,7 @@ func Pages(p *Param, result interface{}) (paginator *Pagination, err error) {
 		TotalRecords: count,
 		Page:         p.Paging.Page,
 		Offset:       offset,
+		From:         p.Paging.Limit * p.Paging.Page,
 		Limit:        p.Paging.Limit,
 		TotalPage:    total,
 		PrevPage:     p.Paging.Page,
