@@ -15,11 +15,11 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gookit/validate v1.5.2
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/motemen/go-loghttp v0.0.0-20170804080138-974ac5ceac27
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/spf13/viper v1.16.0
 	github.com/vearne/gin-timeout v0.1.7
 	github.com/zsais/go-gin-prometheus v0.1.0
+	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.6
 	gorm.io/driver/sqlserver v1.5.3
 	gorm.io/gorm v1.25.7
@@ -40,6 +40,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.15.1 // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
@@ -71,7 +72,6 @@ require (
 	github.com/microsoft/go-mssqldb v1.6.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/motemen/go-nuts v0.0.0-20220604134737-2658d0104f31 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pierrec/lz4/v4 v4.1.21 // indirect
 	github.com/prometheus/client_golang v1.16.0 // indirect
