@@ -15,14 +15,14 @@ type AppException struct {
 	ServiceCode int
 }
 
-func NewAppException(code int, err error, context map[string]any, serviceCode int) *AppException {
-	return &AppException{code, err, context, serviceCode}
+func NewAppException(code int, err error, context map[string]any) *AppException {
+	return &AppException{code, err, context, 0}
 }
 
-func NewValidationAppException(context map[string]any, serviceCode int) *AppException {
-	return &AppException{http.StatusUnprocessableEntity, errors.New("VALIDATION ERROR"), context, serviceCode}
+func NewValidationAppException(context map[string]any) *AppException {
+	return &AppException{http.StatusUnprocessableEntity, errors.New("VALIDATION ERROR"), context, 0}
 }
 
-func NewValidationAppExceptionFromValidationErrors(validationErrors validate.Errors, serviceCode int) *AppException {
-	return NewValidationAppException(validation.ValidationErrorsAsMap(validationErrors), serviceCode)
+func NewValidationAppExceptionFromValidationErrors(validationErrors validate.Errors) *AppException {
+	return NewValidationAppException(validation.ValidationErrorsAsMap(validationErrors))
 }
