@@ -48,7 +48,7 @@ func FormattedSuccessResponse(c *gin.Context, data any) {
 
 func FormattedResponse(c *gin.Context) {
 	for _, err := range c.Errors {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "data": err.Error()})
 
 		return
 	}
@@ -59,7 +59,7 @@ func FormattedResponse(c *gin.Context) {
 	if !exists {
 		data, _ := c.Get("data")
 
-		c.JSON(http.StatusOK, data)
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": data})
 
 		return
 	}
@@ -68,5 +68,5 @@ func FormattedResponse(c *gin.Context) {
 	mapstructure.Decode(appExceptionObject, &appException)
 	fmt.Printf("%+v\n", appException)
 
-	c.JSON(appException.Code, gin.H{"message": appException.Error.Error(), "details": appException.Context})
+	c.JSON(appException.Code, gin.H{"success": false, "message": appException.Error.Error(), "details": appException.Context})
 }
