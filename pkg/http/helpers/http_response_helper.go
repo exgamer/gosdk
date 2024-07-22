@@ -41,6 +41,16 @@ func SuccessResponse(c *gin.Context, data any) {
 	c.Set("data", data)
 }
 
+func SuccessCreatedResponse(c *gin.Context, data any) {
+	c.Set("data", data)
+	c.Set("status_code", http.StatusCreated)
+}
+
+func SuccessDeletedResponse(c *gin.Context, data any) {
+	c.Set("data", data)
+	c.Set("status_code", http.StatusNoContent)
+}
+
 func FormattedSuccessResponse(c *gin.Context, data any) {
 	SuccessResponse(c, data)
 	FormattedResponse(c)
@@ -58,8 +68,15 @@ func FormattedResponse(c *gin.Context) {
 
 	if !exists {
 		data, _ := c.Get("data")
+		c.Writer.Status()
 
-		c.JSON(http.StatusOK, gin.H{"success": true, "data": data, "service_code": 0})
+		statusCode, ex := c.Get("status_code")
+
+		if !ex {
+			c.JSON(http.StatusOK, gin.H{"success": true, "data": data, "service_code": 0})
+		} else {
+			c.JSON(statusCode.(int), gin.H{"success": true, "data": data, "service_code": 0})
+		}
 
 		return
 	}
