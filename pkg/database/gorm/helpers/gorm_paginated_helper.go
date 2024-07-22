@@ -55,5 +55,11 @@ func (h *GormPaginatedHelper[E]) Paginated(page int, callback func(client *gorm.
 
 	structure.Pagination.To = structure.Pagination.From + len(structure.Items)
 
+	if len(structure.Items) == 0 {
+		structure.Pagination.From = 0
+	}
+
+	structure.Pagination.From += 1
+
 	return &structure, nil
 }
