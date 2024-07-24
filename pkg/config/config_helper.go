@@ -35,7 +35,7 @@ func InitConfig[E any](config *E) error {
 	err := viper.Unmarshal(config)
 
 	if err != nil {
-		return err
+		fmt.Println(err.Error())
 	}
 
 	envKeys := structHelper.GetFieldsAsMapStructureTags(config)
