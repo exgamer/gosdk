@@ -70,7 +70,7 @@ func SetAppInfo(c *gin.Context, baseConfig *config.BaseConfig) {
 	appInfo.LanguageCode = c.GetHeader(constants.LanguageHeaderName)
 
 	if appInfo.LanguageCode == "" {
-		appInfo.LanguageCode = constants.LangRu
+		appInfo.LanguageCode = constants.LangCodeRu
 	}
 
 	appInfo.RequestUrl = c.Request.URL.Path
