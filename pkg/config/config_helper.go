@@ -24,7 +24,7 @@ func ReadEnv() error {
 	err = viper.ReadInConfig()
 
 	if err != nil {
-		return err
+		fmt.Printf(err.Error())
 	}
 
 	return nil
