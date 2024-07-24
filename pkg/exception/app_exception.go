@@ -19,6 +19,10 @@ func NewAppException(code int, err error, context map[string]any) *AppException 
 	return &AppException{code, err, context, 0}
 }
 
+func NewServerAppException(err error, context map[string]any) *AppException {
+	return &AppException{http.StatusInternalServerError, err, context, 0}
+}
+
 func NewValidationAppException(context map[string]any) *AppException {
 	return &AppException{http.StatusUnprocessableEntity, errors.New("VALIDATION ERROR"), context, 0}
 }
