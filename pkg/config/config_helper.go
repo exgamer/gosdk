@@ -39,12 +39,12 @@ func InitConfig[E any](config *E) error {
 	}
 
 	envKeys := structHelper.GetFieldsAsMapStructureTags(config)
-	osEnvMap := make(map[string]string, len(envKeys))
+	osEnvMap := make(map[string]any, len(envKeys))
 
 	for _, key := range envKeys {
 		if value, exists := os.LookupEnv(key); exists {
 			key = strings.ToLower(key)
-			osEnvMap[key] = fmt.Sprint(value)
+			osEnvMap[key] = value
 		}
 	}
 
