@@ -1,13 +1,30 @@
 package constants
 
-const LangRu string = "ru"
-const LangKZ string = "kk"
-const LangEN string = "en"
+const LangCodeRu string = "ru"
+const LangCodeKZ string = "kk"
+const LangCodeEN string = "en"
 
-func GetLanguages() []string {
-	return []string{
-		LangRu,
-		LangKZ,
-		LangEN,
+const RuLang int = 1
+const KzLang int = 2
+const EnLang int = 3
+
+func GetLanguages() []int {
+	return []int{
+		RuLang,
+		KzLang,
+		EnLang,
+	}
+}
+
+func GetLanguageByCode(code string) int {
+	switch code {
+	case LangCodeRu:
+		return RuLang
+	case LangCodeKZ:
+		return KzLang
+	case LangCodeEN:
+		return EnLang
+	default:
+		return RuLang
 	}
 }
