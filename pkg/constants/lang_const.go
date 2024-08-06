@@ -28,3 +28,16 @@ func GetLanguageByCode(code string) int {
 		return RuLang
 	}
 }
+
+func GetLanguageCode(lang int) string {
+	switch lang {
+	case RuLang:
+		return LangCodeRu
+	case KzLang:
+		return LangCodeKZ
+	case EnLang:
+		return LangCodeEN
+	default:
+		return LangCodeRu
+	}
+}
