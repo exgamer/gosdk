@@ -92,7 +92,7 @@ func Pages(p *Param, result interface{}) (paginator *Pagination, err error) {
 }
 
 func getCounts(db *gorm.DB, anyType interface{}, done chan bool, count *int64) {
-	db.Model(anyType).Count(count)
+	db.Select("*").Model(anyType).Count(count)
 	done <- true
 }
 
