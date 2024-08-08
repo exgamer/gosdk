@@ -46,7 +46,7 @@ func ErrorHandler(c *gin.Context, err any) {
 	}
 
 	sentry.CaptureException(goErr)
-	c.JSON(http.StatusInternalServerError, gin.H{"message": goErr.Error(), "details": details})
+	c.JSON(http.StatusInternalServerError, gin.H{"message": goErr.Error(), "details": details, "success": false, "service_code": 0})
 }
 
 func Error(c *gin.Context, exception *exception.AppException) {
