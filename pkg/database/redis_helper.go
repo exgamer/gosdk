@@ -23,7 +23,6 @@ type RedisHelper[E interface{}] struct {
 	redisClient *redis.Client
 	appInfo     *config.AppInfo
 	result      E
-	resultArr   []E
 }
 
 // SetRequestData - установить Доп данные для запроса (используется для логирования)
@@ -127,7 +126,8 @@ func (redisHelper *RedisHelper[E]) SetString(key string, string string, ttl time
 }
 
 // GetModelList Возвращает list по ключу
-func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]E, error) {
+func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]*E, error) {
+	resultArr := make([]*E, 0)
 	ctx := context.Background()
 	val, err := redisHelper.redisClient.Get(ctx, key).Result()
 
@@ -139,7 +139,7 @@ func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]E, error) {
 		return nil, nil
 	}
 
-	unMarshErr := json.Unmarshal([]byte(val), &redisHelper.resultArr)
+	unMarshErr := json.Unmarshal([]byte(val), &resultArr)
 
 	if unMarshErr != nil {
 		return nil, unMarshErr
@@ -151,11 +151,11 @@ func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]E, error) {
 		println("GOT LIST FROM CACHE: " + val)
 	}
 
-	return redisHelper.resultArr, nil
+	return resultArr, nil
 }
 
 // SetModelList Записывает list по ключу
-func (redisHelper *RedisHelper[E]) SetModelList(key string, models []E, ttl time.Duration) error {
+func (redisHelper *RedisHelper[E]) SetModelList(key string, models []*E, ttl time.Duration) error {
 	str, err := json.Marshal(models)
 
 	if err != nil {
