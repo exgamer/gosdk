@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/exgamer/gosdk/pkg/config"
 	"github.com/exgamer/gosdk/pkg/logger"
 	"github.com/redis/go-redis/v9"
@@ -125,8 +124,8 @@ func (redisHelper *RedisHelper[E]) SetString(key string, string string, ttl time
 	return nil
 }
 
-// GetModelList Возвращает list по ключу
-func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]*E, error) {
+// GetArrayOfPointerModels Возвращает list по ключу
+func (redisHelper *RedisHelper[E]) GetArrayOfPointerModels(key string) ([]*E, error) {
 	resultArr := make([]*E, 0)
 	ctx := context.Background()
 	val, err := redisHelper.redisClient.Get(ctx, key).Result()
@@ -154,8 +153,8 @@ func (redisHelper *RedisHelper[E]) GetModelList(key string) ([]*E, error) {
 	return resultArr, nil
 }
 
-// SetModelList Записывает list по ключу
-func (redisHelper *RedisHelper[E]) SetModelList(key string, models []*E, ttl time.Duration) error {
+// SetArrayOfPointerModels Записывает list по ключу
+func (redisHelper *RedisHelper[E]) SetArrayOfPointerModels(key string, models []*E, ttl time.Duration) error {
 	str, err := json.Marshal(models)
 
 	if err != nil {
@@ -164,13 +163,68 @@ func (redisHelper *RedisHelper[E]) SetModelList(key string, models []*E, ttl tim
 	}
 
 	ctx := context.Background()
-	spew.Dump(1)
+
 	rErr := redisHelper.redisClient.Set(ctx, key, str, ttl).Err()
 
 	if rErr != nil {
 		return rErr
 	}
-	spew.Dump(2)
+
+	if redisHelper.appInfo != nil {
+		logger.FormattedLogWithAppInfo(redisHelper.appInfo, "SET LIST TO CACHE: "+string(str))
+	} else {
+		println("SET DATA TO CACHE: " + string(str))
+	}
+
+	return nil
+}
+
+// GetPointerArrayOfModels Возвращает list по ключу
+func (redisHelper *RedisHelper[E]) GetPointerArrayOfModels(key string) (*[]E, error) {
+	resultArr := make([]E, 0)
+	ctx := context.Background()
+	val, err := redisHelper.redisClient.Get(ctx, key).Result()
+
+	if err != nil && !errors.Is(err, redis.Nil) {
+		return nil, err
+	}
+
+	if val == "" {
+		return nil, nil
+	}
+
+	unMarshErr := json.Unmarshal([]byte(val), &resultArr)
+
+	if unMarshErr != nil {
+		return nil, unMarshErr
+	}
+
+	if redisHelper.appInfo != nil {
+		logger.FormattedLogWithAppInfo(redisHelper.appInfo, "GOT LIST FROM CACHE: "+val)
+	} else {
+		println("GOT LIST FROM CACHE: " + val)
+	}
+
+	return &resultArr, nil
+}
+
+// SetPointerArrayOfModels Записывает list по ключу
+func (redisHelper *RedisHelper[E]) SetPointerArrayOfModels(key string, models *[]E, ttl time.Duration) error {
+	str, err := json.Marshal(models)
+
+	if err != nil {
+
+		return err
+	}
+
+	ctx := context.Background()
+
+	rErr := redisHelper.redisClient.Set(ctx, key, str, ttl).Err()
+
+	if rErr != nil {
+		return rErr
+	}
+
 	if redisHelper.appInfo != nil {
 		logger.FormattedLogWithAppInfo(redisHelper.appInfo, "SET LIST TO CACHE: "+string(str))
 	} else {
