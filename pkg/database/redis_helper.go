@@ -155,6 +155,10 @@ func (redisHelper *RedisHelper[E]) GetArrayOfPointerModels(key string) ([]*E, er
 
 // SetArrayOfPointerModels Записывает list по ключу
 func (redisHelper *RedisHelper[E]) SetArrayOfPointerModels(key string, models []*E, ttl time.Duration) error {
+	if len(models) == 0 {
+		return nil
+	}
+
 	str, err := json.Marshal(models)
 
 	if err != nil {
@@ -210,6 +214,10 @@ func (redisHelper *RedisHelper[E]) GetPointerArrayOfModels(key string) (*[]E, er
 
 // SetPointerArrayOfModels Записывает list по ключу
 func (redisHelper *RedisHelper[E]) SetPointerArrayOfModels(key string, models *[]E, ttl time.Duration) error {
+	if len(*models) == 0 {
+		return nil
+	}
+
 	str, err := json.Marshal(models)
 
 	if err != nil {
