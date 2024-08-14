@@ -150,6 +150,10 @@ func (redisHelper *RedisHelper[E]) GetArrayOfPointerModels(key string) ([]*E, er
 		println("GOT LIST FROM CACHE: " + val)
 	}
 
+	if len(resultArr) == 0 {
+		return nil, nil
+	}
+
 	return resultArr, nil
 }
 
@@ -207,6 +211,10 @@ func (redisHelper *RedisHelper[E]) GetPointerArrayOfModels(key string) (*[]E, er
 		logger.FormattedLogWithAppInfo(redisHelper.appInfo, "GOT LIST FROM CACHE: "+val)
 	} else {
 		println("GOT LIST FROM CACHE: " + val)
+	}
+
+	if len(resultArr) == 0 {
+		return nil, nil
 	}
 
 	return &resultArr, nil
